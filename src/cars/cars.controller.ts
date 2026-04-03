@@ -1,5 +1,7 @@
-import { Controller, Get, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { CarsService } from './cars.service';
+import { retry } from 'rxjs';
+
 
 @Controller('cars')
 export class CarsController {
@@ -21,5 +23,19 @@ export class CarsController {
         return this.carservice.findOneByID(id)
     }
 
+    @Post()
+    createCar(@Body() req){
+        return this.carservice.Save(req)
+    }
+
+    @Put(":id")
+    updateCar(@Param('id') id:number, @Body() payload){
+        
+    }
+
+    @Put(":id")
+    deleteCar(@Param('id') id:number){
+        
+    }
 
 }
