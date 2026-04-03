@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, ParseIntPipe } from '@nestjs/common';
 import { CarsService } from './cars.service';
 
 @Controller('cars')
@@ -16,18 +16,9 @@ export class CarsController {
 
     
     @Get(":id")
-    getCarByID( @Param('id') id:string){ //* Con @param obtenemos el parametro que venga en la request
-        console.log({id: +id})
-        const CarExist = this.carservice.findOneByID(+id)
-
-        if(!CarExist){
-            throw new NotFoundException("no se encontro ese ID")
-        }
-
-        return{
-            id,
-            car: CarExist
-        }
+    getCarByID( @Param('id', ParseIntPipe) id:number){ //* Con @param obtenemos el parametro que venga en la request
+        console.log({id: id})
+        return this.carservice.findOneByID(id)
     }
 
 
