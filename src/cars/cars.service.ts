@@ -8,21 +8,21 @@ import { updateV1State } from 'node_modules/uuid/dist/v1';
 @Injectable()
 export class CarsService {
     private cars:CarsInterface[] = [
-        {
-            id: uuid(), //*UUID
-            brand: "Toyota",
-            model: "Corolla"
-        },
-        {
-            id: uuid(),
-            brand: "Honda",
-            model: "Civic"
-        },
-        {
-            id: uuid(),
-            brand: "Hyundai",
-            model: "Accent"
-        }
+        // {
+        //     id: uuid(), //*UUID
+        //     brand: "Toyota",
+        //     model: "Corolla"
+        // },
+        // {
+        //     id: uuid(),
+        //     brand: "Honda",
+        //     model: "Civic"
+        // },
+        // {
+        //     id: uuid(),
+        //     brand: "Hyundai",
+        //     model: "Accent"
+        // }
     ]
 
     public findAll() {
@@ -81,5 +81,9 @@ export class CarsService {
         const carExist = this.findOneByID(id)
         this.cars = this.cars.filter(car => car.id !== id);
         return true;
+    }
+
+    fillCarsWithSeedData(cars: CarsInterface[]){
+        this.cars = cars
     }
 }

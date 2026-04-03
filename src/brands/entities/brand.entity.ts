@@ -1,4 +1,4 @@
-import { CreateBrandDto } from '../dto/create-brand.dto';
+
 export class Brand {
 
     public id:string;
