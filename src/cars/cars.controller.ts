@@ -1,9 +1,12 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, NotFoundException, Param, ParseIntPipe, ParseUUIDPipe, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CarsService } from './cars.service';
-import { retry } from 'rxjs';
+import { CreateCarDTO } from './DTO/create-car.dto';
+import { UpdateCarDTO } from './DTO/update-car.dto';
+
 
 
 @Controller('cars')
+//@UsePipes(ValidationPipe)
 export class CarsController {
 
     private readonly carservice:CarsService //Injeccion de dependencia del servicio
@@ -18,24 +21,26 @@ export class CarsController {
 
     
     @Get(":id")
-    getCarByID( @Param('id', ParseIntPipe) id:number){ //* Con @param obtenemos el parametro que venga en la request
+    getCarByID( @Param('id', ParseUUIDPipe) id:string){ //* Con @param obtenemos el parametro que venga en la request
         console.log({id: id})
         return this.carservice.findOneByID(id)
     }
 
+    //*Metodo Post
     @Post()
-    createCar(@Body() req){
-        return this.carservice.Save(req)
+    createCar(@Body() createCar:CreateCarDTO){
+        return this.carservice.create(createCar);
     }
 
     @Put(":id")
-    updateCar(@Param('id') id:number, @Body() payload){
-        
+    updateCar(@Param('id', ParseUUIDPipe) id:string, @Body() payload:UpdateCarDTO){
+       return this.carservice.Update(id, payload)
     }
 
-    @Put(":id")
-    deleteCar(@Param('id') id:number){
-        
+    @Delete(":id")
+    @HttpCode(HttpStatus.NO_CONTENT)
+    deleteCar(@Param('id', ParseUUIDPipe) id:string){
+        return this.carservice.delete(id)
     }
 
 }
